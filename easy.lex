@@ -9,7 +9,7 @@
     void yyerror();
 %}
 DIGIT [0-9]
-ID [a-zA-Z_][a-zA-Z0-9]*
+ID [a-zA-Z_][a-zA-Z0-9_]*
 %%
 
 {DIGIT}+ { ret_print("INTEGER"); }
@@ -18,25 +18,25 @@ true|false { ret_print("BOOLEAN"); }
 not { ret_print("LOGICAL_NOT"); }
 and { ret_print("LOGICAL_AND"); }
 or { ret_print("LOGICAL_OR"); }
-if|then|else|case|endcase|while|do|endwhile|repeat|until|loop|forever|for|endfor|to|by|input|output|array|node|call|return|stop|end|procedure {
+if|then|else|case|endcase|while|do|endwhile|repeat|until|loop|forever|for|endfor|to|by|input|output|array|node|call|return|stop|end|procedure|"go to"|exit {
 ret_print("RESERVED");}
+floor|log|ceil|mod { ret_print("MATH_NOTATION"); }
 {ID} ret_print("IDENTIFIER");
 "^" ret_print("EXPONENTIATION");
 "/" ret_print("DIVISION");
-"*" ret_print("MULTIPLICATION");
-"+" ret_print("ADDITION");
-"-" ret_print("SUBTRACTION");
+"*" ret_print("TIMES");
+"+" ret_print("PLUS");
+"-" ret_print("MINUS");
 "<"|"<="|">"|">=" ret_print("RELATIONAL");
 "==" ret_print("EQUALITY");
-\".*\" ret_print("STRING_LITERAL");
-\'.*\' ret_print("STRING_LITERAL");
+\'([^\\\']|\\.)*\' ret_print("STRING_LITERAL");
 "!=" ret_print("INEQUALITY");
-"=" ret_print("ASSIGNMENT");
+"="|":=" ret_print("ASSIGNMENT");
 "("|")" ret_print("PARENTHESES");
+"["|"]" ret_print("BRACKETS");
 ":" ret_print("COLON");
 ";" ret_print("SEMI_COLON");
-"," ret_print("COMMA");
-"{"[\^{}}\n]*"}"      /* handles one-line comments */   
+"," ret_print("COMMA"); 
 "\n" { lineno++; }               
 [ \t\r\f]+              /* handles whitespace */                  
 . { yyerror("Unrecognized character"); }
@@ -44,7 +44,7 @@ ret_print("RESERVED");}
 %%
 
 void ret_print(char *token_type) {
-    printf("yytext: %s\ttoken: %s\tlineno: %d\n", yytext, token_type, lineno);
+    printf("lineno: %d <%s, %s>\n", lineno, yytext, token_type);
 }
 
 void yyerror(char *message) {
