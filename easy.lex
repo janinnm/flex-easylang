@@ -18,7 +18,7 @@ true|false { ret_print("BOOLEAN"); }
 not { ret_print("LOGICAL_NOT"); }
 and { ret_print("LOGICAL_AND"); }
 or { ret_print("LOGICAL_OR"); }
-if|then|else|case|endcase|while|do|endwhile|repeat|until|loop|forever|for|endfor|to|by|input|output|array|node|call|return|stop|end|procedure|"go to"|exit {
+if|then|else|case|endcase|while|do|endwhile|repeat|until|loop|forever|for|endfor|to|by|input|output|array|node|call|return|stop|end|procedure|"go to"|"else if"|exit {
 ret_print("RESERVED");}
 floor|log|ceil|mod { ret_print("MATH_NOTATION"); }
 {ID} ret_print("IDENTIFIER");
